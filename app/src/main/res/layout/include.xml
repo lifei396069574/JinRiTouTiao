@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+
+
+  <ImageButton
+      android:id="@+id/button_landmore_xiao"
+      android:layout_margin="15dp"
+      android:layout_width="20dp"
+      android:layout_height="20dp"
+      android:src="@mipmap/back_discover_normal"
+      android:background="@color/colorWrite"
+      />
+
+       <TextView
+           android:layout_centerHorizontal="true"
+           android:layout_margin="10dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="登陆今日头条"
+           android:textSize="25sp"
+           />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/subscribe_item_drag_stroke"
+        android:layout_below="@id/button_landmore_xiao"
+        />
+
+
+
+
+
+</RelativeLayout>

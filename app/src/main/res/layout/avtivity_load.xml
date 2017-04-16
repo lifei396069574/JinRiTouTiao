@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <include
+        android:id="@+id/inclu"
+        layout="@layout/include"
+        ></include>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/pic_login"
+        android:layout_below="@+id/inclu"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/button_phone_land"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:text="手机号登陆"
+        android:background="@drawable/button_landshape"
+        android:textColor="@color/colorWrite"
+        />
+
+    <Button
+        android:id="@+id/button_phone_zhu"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="注册新账号"
+        android:layout_below="@+id/button_phone_land"
+        android:background="@drawable/button_zhushape"
+        android:textColor="@color/colorRed"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+
+        />
+
+
+    <TextView
+        android:layout_below="@id/button_phone_zhu"
+        android:id="@+id/text_land"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="其他登录方式"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignTop="@id/text_land"
+        android:layout_toRightOf="@id/text_land"
+        android:layout_marginLeft="20dp"
+        android:background="@color/subscribe_item_drag_stroke"
+        />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignTop="@id/text_land"
+        android:layout_toLeftOf="@id/text_land"
+        android:layout_marginRight="20dp"
+        android:background="@color/subscribe_item_drag_stroke"
+        />
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/text_land"
+        >
+        <ImageButton
+            android:background="@color/colorWrite"
+            android:id="@+id/landmore_qq"
+            android:layout_margin="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/ic_qq_login_normal"
+            />
+        <ImageButton
+            android:background="@color/colorWrite"
+            android:id="@+id/landmore_wei"
+            android:layout_margin="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/ic_weibo_login_normal"
+            />
+        <ImageButton
+            android:background="@color/colorWrite"
+            android:id="@+id/landmore_ten"
+            android:layout_margin="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/ic_tencent_login_normal"
+            />
+        <ImageButton
+            android:background="@color/colorWrite"
+            android:id="@+id/landmore_ren"
+            android:layout_margin="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/ic_renren_login_normal"
+            />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

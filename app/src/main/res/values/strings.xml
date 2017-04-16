@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">JinRiTouTiao</string>
+    <!--net-->
+    <string name="network.open_wireless_settings">Open Wireless Settings</string>
+    <string name="network.set_data_enabled">Set Data Enabled</string>
+    <string name="network.set_wifi_enabled">Set Wifi Enabled</string>
+
+
+</resources>

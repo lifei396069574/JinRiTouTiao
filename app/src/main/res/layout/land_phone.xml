@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <include
+        android:id="@+id/inclu2"
+        layout="@layout/include"
+        />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="86dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_below="@id/inclu2"
+        android:layout_centerHorizontal="true"
+        android:hint="请输入手机号"
+        android:drawableLeft="@mipmap/ic_tip_mobile"
+        android:textSize="15sp"
+        />
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/editText3"
+        android:layout_below="@id/editText3"
+        android:layout_marginTop="35dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:drawableLeft="@mipmap/ic_tip_pwd"
+        android:textSize="15sp"
+        android:hint="请输入密码"
+        />
+
+    <TextView
+        android:id="@+id/textView1_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/editText4"
+        android:layout_below="@id/editText4"
+        android:layout_marginTop="32dp"
+        android:text="注册账号"/>
+
+    <TextView
+        android:id="@+id/textView2_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editText4"
+        android:layout_alignTop="@id/textView1_phone"
+        android:layout_marginEnd="13dp"
+        android:text="忘记密码"/>
+
+    <Button
+        android:id="@+id/button_phone_login"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:background="@drawable/button_zhushape"
+        android:text="登陆"
+        android:layout_below="@id/textView1_phone"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/button_for_xiao"
+            android:background="@color/colorWrite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/back_discover_normal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="找回密码"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/colorBlack"/>
+
+    <LinearLayout
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingRight="10dp"
+            android:text="+86"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="请输入手机号码"/>
+
+        <ImageButton
+            android:id="@+id/button_for_x"
+            android:visibility="gone"
+            android:src="@mipmap/close_discover_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_gravity="center"
+        android:background="@color/subscribe_item_focused_stroke"
+        android:paddingBottom="30dp"
+        android:layout_width="200dp"
+        android:layout_height="0.1dp"/>
+
+
+    <Button
+        android:id="@+id/button_for_xia"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_zhushape"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorRed"
+        android:text="下一步"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"/>
+
+</LinearLayout>
