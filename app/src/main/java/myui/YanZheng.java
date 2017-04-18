@@ -62,17 +62,15 @@ public class YanZheng extends Fragment implements View.OnClickListener {
     };
     private String mPhoneNum;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.phonezhuce, null);
-
         initView(view);
-
         Bundle bundle = getArguments();
 
         mPhoneNum = bundle.getString("phoneNum");
+        Log.i("ggg","电话号"+mPhoneNum);
         phone_text1.setText(mPhoneNum);
 
         timeBack();
@@ -83,7 +81,6 @@ public class YanZheng extends Fragment implements View.OnClickListener {
 
         return view;
     }
-
     private void initView(View view) {
         zhuce_fanhui = (ImageButton) view.findViewById(R.id.zhuce_fanhui);
         relative1 = (RelativeLayout) view.findViewById(R.id.relative1);
@@ -99,16 +96,11 @@ public class YanZheng extends Fragment implements View.OnClickListener {
         chongxinfasong.setOnClickListener(this);
         denglu.setOnClickListener(this);
         zhuce_fanhui.setOnClickListener(this);
-
     }
-
-
     private void timeBack() {
         chongxinfasong.setEnabled(false);
         mHandler.sendEmptyMessage(0);
-
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -127,7 +119,7 @@ public class YanZheng extends Fragment implements View.OnClickListener {
                 break;
             case R.id.zhuce_fanhui:
 
-                tiaozhuan(new XieYi());
+                tiaozhuan(new PhoneZhu());
 
                 break;
         }
@@ -153,7 +145,11 @@ public class YanZheng extends Fragment implements View.OnClickListener {
                             public void run() {
                                 showDailog("恭喜你！通过验证");
                                 dialog.dismiss();
-                                // 记住密码
+                                // 记住密码   将账号密码存在数据库中 ？
+
+
+
+
 
                                 tiaozhuan(new PersonInfo());
 

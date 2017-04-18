@@ -14,6 +14,10 @@ import android.widget.ImageButton;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.xutils.ex.DbException;
 
@@ -26,18 +30,24 @@ import fragment.MenuLeftFragment;
 import mhttp.MyHttp;
 import utils.DbUtils;
 import utils.NetworkUtils;
+import utils.Night_styleutils;
 
 public class MainActivity extends SlidingFragmentActivity implements View.OnClickListener {
 
+    private int theme = 0;
     public TabLayout tab;
     public ViewPager vp;
     private ImageButton button_jia;
     private List<String> mList_title;
     private List<String> mList_uri;
     public static boolean isDB=false;
+    private BaseUiListener mIUiListener ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        Night_styleutils.changeStyle(this, theme, savedInstanceState);
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -101,6 +111,8 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
 
         button_jia = (ImageButton) findViewById(R.id.button_jia);
         button_jia.setOnClickListener(this);
+
+        mIUiListener = new BaseUiListener();
     }
 
     public void initRightMenu() {
@@ -191,5 +203,50 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
 
         vp.setAdapter(adapter);
 
+    }
+
+    //设置夜间模式
+    public void reload() {
+        Intent intent = getIntent();
+        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);//进入动画
+        finish();
+        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+        startActivity(intent);
+    }
+
+    /**
+     * 在调用Login的Activity或者Fragment中重写onActivityResult方法  毁掉方法必须写在 activity 中
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Tencent.onActivityResultData(requestCode,resultCode,data,mIUiListener);
+        Log.i("jjj","回调");
+        if (requestCode == Constants.REQUEST_API) {
+            if (resultCode == Constants.REQUEST_LOGIN) {
+
+                Tencent.handleResultData(data, mIUiListener);
+            }
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    /**
+     * 自定义监听器实现IUiListener接口后，需要实现的3个方法
+     * onComplete完成 onError错误 onCancel取消   在  activity 中完全没用
+     */
+
+    public class BaseUiListener implements IUiListener {
+        @Override
+        public void onComplete(Object response) {
+        }
+        @Override
+        public void onError(UiError uiError) {
+        }
+        @Override
+        public void onCancel() {
+        }
     }
 }

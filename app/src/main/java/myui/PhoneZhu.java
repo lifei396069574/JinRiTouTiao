@@ -1,5 +1,4 @@
 package myui;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,12 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.jinritoutiao.R;
-
 /**
  * 作者：李飞 on 2017/4/13 18:18
  * 类的用途：
  */
-
 public class PhoneZhu extends Fragment implements View.OnClickListener {
 
     private ImageButton zhuce_imageview;
@@ -72,7 +69,7 @@ public class PhoneZhu extends Fragment implements View.OnClickListener {
             case R.id.zhuce_button:
                 //下一步
 
-                if (!radiobutton.isChecked() || TextUtils.isEmpty(edittext2.getText().toString())){
+                if (!radiobutton.isChecked() || TextUtils.isEmpty(edittext2.getText().toString()) ){
                     Toast.makeText(getActivity(),"同意该协议或手机号码为空",Toast.LENGTH_SHORT).show();
                 }else {
 

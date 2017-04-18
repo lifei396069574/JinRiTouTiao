@@ -1,5 +1,4 @@
 package myui;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,24 +24,19 @@ import com.example.administrator.jinritoutiao.R;
 import java.io.ByteArrayOutputStream;
 
 import view.MyImageView;
-
 /**
  * 作者：李飞 on 2017/4/14 10:22
  * 类的用途：
  */
-
 public class PersonInfo extends Fragment implements View.OnClickListener {
     private TextView text_gerenshezhi_wancheng;
     private MyImageView button_gerenshezhi_touxiang;
     private Bitmap mBimap;
     private EditText text_geren_nicheng;
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gerenshezhi, null);
-
         initView(view);
         return view;
     }
@@ -93,6 +87,10 @@ public class PersonInfo extends Fragment implements View.OnClickListener {
                 //    mBimap  将照片回传
 
                 String nicheng = text_geren_nicheng.getText().toString();
+                if (TextUtils.isEmpty(nicheng)){
+                    Toast.makeText(getActivity(),"请填写昵称",Toast.LENGTH_SHORT).show();
+                            break;
+                }
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("person", Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();

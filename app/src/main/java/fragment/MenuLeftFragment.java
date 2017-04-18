@@ -16,18 +16,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.jinritoutiao.Main2Activity;
+import com.example.administrator.jinritoutiao.MainActivity;
 import com.example.administrator.jinritoutiao.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQToken;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import bean.Bean;
+import utils.UiUtils;
+
+import static com.tencent.open.utils.Global.getSharedPreferences;
 
 /**
  * 作者：李飞 on 2017/4/8 11:27
@@ -45,6 +60,11 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
     private TextView mNi;
     private SharedPreferences mPerson;
     private Button mNight;
+    private static final String APP_ID = "1106105900";//官方获取的APPID
+    private Tencent mTencent;
+    private BaseUiListener mIUiListener;
+    private UserInfo mUserInfo;
+    private ImageButton mImage_qq;
 
     @Nullable
     @Override
@@ -62,6 +82,9 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
 
         panduantouxian(mR1, mR2, mTouxiang, mNi);
 
+        //传入参数APPID和全局Context上下文
+        mTencent = Tencent.createInstance(APP_ID,getActivity().getApplicationContext());
+
         Log.i("iii","走了一次");
 
         return view;
@@ -74,10 +97,13 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         String nicheng = mPerson.getString("nicheng", "昵称");
         String tu = mPerson.getString("zhaopian", "");
         Bitmap bitmap = convertStringToIcon(tu);
+        String imagehttp = mPerson.getString("image", "");
+
         if (is){
             r1.setVisibility(View.GONE);
             r2.setVisibility(View.VISIBLE);
             touxiang.setImageBitmap(bitmap);
+            ImageLoader.getInstance().displayImage(imagehttp,touxiang);
             ni.setText(nicheng);
         }else {
             r2.setVisibility(View.GONE);
@@ -138,8 +164,11 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         mListView = (ListView)getView().findViewById(R.id.main_listview);
         mLandmore = (TextView) getView().findViewById(R.id.text_landmore);
         mNight = (Button) getView().findViewById(R.id.night);
+        mImage_qq = (ImageButton) getView().findViewById(R.id.image_qq);
         mLandmore.setOnClickListener(this);
+        mImage_qq.setOnClickListener(this);
         mNight.setOnClickListener(this);
+
 
     }
     class MyBaseAdapter extends BaseAdapter {
@@ -209,7 +238,22 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
 
+                UiUtils.switchAppTheme(getActivity());
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.reload();
 
+                break;
+
+            case R.id.image_qq:
+                //第三方登陆
+
+        /*       官方文档中的说明：应用需要获得哪些API的权限，由“，”分隔。例如：SCOPE = “get_user_info,add_t”；所有权限用“all”
+                第三个参数，是一个事件监听器，IUiListener接口的实例，这里用的是该接口的实现类 */
+                mIUiListener = new BaseUiListener();
+
+                //all表示获取所有权限
+                mTencent.login(getActivity(),"all", mIUiListener);
+                Log.i("jjj","点击了第三方");
                 break;
         }
     }
@@ -231,6 +275,76 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    /**
+     * 自定义监听器实现IUiListener接口后，需要实现的3个方法
+     * onComplete完成 onError错误 onCancel取消
+     */
+    public class BaseUiListener implements IUiListener {
+        @Override
+        public void onComplete(Object response) {
+
+            Log.i("jjj","授权成功");
+            Toast.makeText(getActivity(), "授权成功", Toast.LENGTH_SHORT).show();
+
+            JSONObject obj = (JSONObject) response;
+            try {
+                String openID = obj.getString("openid");
+                String accessToken = obj.getString("access_token");
+                String expires = obj.getString("expires_in");
+                Log.i("jjj","obj"+obj.toString());
+                mTencent.setOpenId(openID);
+                mTencent.setAccessToken(accessToken,expires);
+                QQToken qqToken = mTencent.getQQToken();
+                mUserInfo = new UserInfo(getActivity().getApplicationContext(),qqToken);
+                mUserInfo.getUserInfo(new IUiListener() {
+                    @Override
+                    public void onComplete(Object response) {
+                        Log.i("jjj","登录成功"+response.toString());
+
+                        JSONObject res= (JSONObject) response;
+                        String nickName=res.optString("nickname");//获取昵称
+                        String figureurl_qq_1=res.optString("figureurl_qq_2");//获取图片
+
+                        SharedPreferences.Editor info = getSharedPreferences("person", MainActivity.MODE_WORLD_READABLE | MainActivity.MODE_WORLD_WRITEABLE).edit();
+                        info.putBoolean("is",true);
+                        info.putString("nicheng",nickName);
+                        info.putString("image",figureurl_qq_1);
+                        info.commit();
+                        Log.i("jjj","记录");
+
+                        //  先回复焦点 然后执行回调
+                        panduantouxian(mR1, mR2, mTouxiang, mNi);
+
+                        mTencent.logout(getActivity());
+
+                    }
+                    @Override
+                    public void onError(UiError uiError) {
+                        Log.i("jjj","登录失败"+uiError.toString());
+                    }
+                    @Override
+                    public void onCancel() {
+                        Log.i("jjj","登录取消");
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(getActivity(), "授权失败", Toast.LENGTH_SHORT).show();
+            Log.i("jjj","授权失败");
+        }
+
+        @Override
+        public void onCancel() {
+            Toast.makeText(getActivity(), "授权取消", Toast.LENGTH_SHORT).show();
+            Log.i("jjj","授权取消");
+        }
+
+    }
 
 
 

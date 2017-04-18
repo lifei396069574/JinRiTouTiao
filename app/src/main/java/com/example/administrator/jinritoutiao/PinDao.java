@@ -27,10 +27,12 @@ import adapter.OtherAdapter;
 import bean.NewsInfo;
 import utils.ButtonUtils;
 import utils.DbUtils;
+import utils.Night_styleutils;
 import view.MyGridView;
 
 public class PinDao extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
+    private int theme = 0;
     private MyGridView mUserGv, mOtherGv;
     private List<String> mUserList = new ArrayList<>();
     private List<String> mOtherList = new ArrayList<>();
@@ -39,6 +41,9 @@ public class PinDao extends AppCompatActivity implements AdapterView.OnItemClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Night_styleutils.changeStyle(this, theme, savedInstanceState);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_dao);
         initView();

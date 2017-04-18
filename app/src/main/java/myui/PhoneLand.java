@@ -53,6 +53,8 @@ public class PhoneLand extends Fragment implements View.OnClickListener {
                 tiaozhuan(new LandMore());
                 break;
             case R.id.button_phone_login:
+                //添加判断
+
                 tiaozhuan(new PersonInfo());
                 break;
             case R.id.textView1_phone:
