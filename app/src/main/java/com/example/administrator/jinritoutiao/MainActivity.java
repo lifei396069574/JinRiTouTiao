@@ -9,15 +9,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.tencent.connect.common.Constants;
-import com.tencent.tauth.IUiListener;
-import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
+import com.umeng.socialize.UMShareAPI;
 
 import org.xutils.ex.DbException;
 
@@ -37,11 +36,13 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
     private int theme = 0;
     public TabLayout tab;
     public ViewPager vp;
-    private ImageButton button_jia;
+    private ImageView button_jia;
     private List<String> mList_title;
     private List<String> mList_uri;
-    public static boolean isDB=false;
-    private BaseUiListener mIUiListener ;
+    public static boolean isDB = false;
+    private SlidingMenu mMenu;
+    private long mExitTime;
+    private ImageView main_shousuo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,10 +110,11 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
         //指示器与vp 关联
         tab.setupWithViewPager(vp);
 
-        button_jia = (ImageButton) findViewById(R.id.button_jia);
+        button_jia = (ImageView) findViewById(R.id.button_jia);
         button_jia.setOnClickListener(this);
 
-        mIUiListener = new BaseUiListener();
+        main_shousuo = (ImageView) findViewById(R.id.main_shousuo);
+        main_shousuo.setOnClickListener(this);
     }
 
     public void initRightMenu() {
@@ -120,12 +122,12 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
         setBehindContentView(R.layout.left_menu_frame);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.id_left_menu_frame, leftMenuFragment).commit();
-        SlidingMenu menu = getSlidingMenu();
-        menu.setMode(SlidingMenu.LEFT);
+        mMenu = getSlidingMenu();
+        mMenu.setMode(SlidingMenu.LEFT);
         // 设置触摸屏幕的模式
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
-        menu.setShadowWidthRes(R.dimen.shadow_width);
-        menu.setShadowDrawable(R.drawable.shadow);
+        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+        mMenu.setShadowWidthRes(R.dimen.shadow_width);
+        mMenu.setShadowDrawable(R.drawable.shadow);
         // 设置滑动菜单视图的宽度
 //        WindowManager wm = this.getWindowManager();
 //        int width = wm.getDefaultDisplay().getWidth();
@@ -134,11 +136,11 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
 //        //侧滑菜单的宽度
 //        menu.setBehindWidth(kuan);
         //剩余主页面的宽度
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        mMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         // 设置渐入渐出效果的值
-        menu.setFadeDegree(0.35f);
+        mMenu.setFadeDegree(0.35f);
         // menu.setBehindScrollScale(1.0f);
-        menu.setSecondaryShadowDrawable(R.drawable.shadow);
+        mMenu.setSecondaryShadowDrawable(R.drawable.shadow);
     }
 
     public void showLeftMenu(View view) {
@@ -151,6 +153,9 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
             case R.id.button_jia:
                 startActivity(new Intent(this, PinDao.class));
                 break;
+            case R.id.main_shousuo:
+                startActivity(new Intent(this, CityActivity.class));
+                break;
         }
     }
 
@@ -159,10 +164,10 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
     protected void onResume() {
         super.onResume();
 
-        Log.i("fff","onResume   main " +MainActivity.isDB+"");
+        Log.i("fff", "onResume   main " + MainActivity.isDB + "");
 
-        if (isDB){
-           selectDB();
+        if (isDB) {
+            selectDB();
         }
 
     }
@@ -170,7 +175,7 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
     @Override
     protected void onStop() {
         super.onStop();
-        MainActivity.isDB=false;
+        MainActivity.isDB = false;
 
     }
 
@@ -181,9 +186,8 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
 
         try {
             List<NewsInfo> all = DbUtils.getDaoConfig().findAll(NewsInfo.class);//返回当前表里面的所有数据
-            for (NewsInfo n :all) {
-                Log.i("kkk",n.zhuangt);
-                if (n.zhuangt.equals("1")){
+            for (NewsInfo n : all) {
+                if (n.zhuangt.equals("1")) {
                     mList_title.add(n.title);
                     mList_uri.add(n.uri);
                 }
@@ -197,9 +201,9 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
 
     }
 
-    public void setAdapter(){
+    public void setAdapter() {
 
-        FragmentPagerAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(),mList_uri,mList_title);
+        FragmentPagerAdapter adapter = new MyFragmentAdapter(getSupportFragmentManager(), mList_uri, mList_title);
 
         vp.setAdapter(adapter);
 
@@ -216,37 +220,34 @@ public class MainActivity extends SlidingFragmentActivity implements View.OnClic
 
     /**
      * 在调用Login的Activity或者Fragment中重写onActivityResult方法  毁掉方法必须写在 activity 中
+     *
      * @param requestCode
      * @param resultCode
      * @param data
      */
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Tencent.onActivityResultData(requestCode,resultCode,data,mIUiListener);
-        Log.i("jjj","回调");
-        if (requestCode == Constants.REQUEST_API) {
-            if (resultCode == Constants.REQUEST_LOGIN) {
 
-                Tencent.handleResultData(data, mIUiListener);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mMenu.isMenuShowing()) {
+                mMenu.showContent();
+            } else if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Object mHelperUtils;
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
             }
-            super.onActivityResult(requestCode, resultCode, data);
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
 
-    /**
-     * 自定义监听器实现IUiListener接口后，需要实现的3个方法
-     * onComplete完成 onError错误 onCancel取消   在  activity 中完全没用
-     */
-
-    public class BaseUiListener implements IUiListener {
-        @Override
-        public void onComplete(Object response) {
-        }
-        @Override
-        public void onError(UiError uiError) {
-        }
-        @Override
-        public void onCancel() {
-        }
-    }
 }

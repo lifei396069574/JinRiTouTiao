@@ -36,6 +36,7 @@
         android:drawableLeft="@mipmap/ic_tip_pwd"
         android:textSize="15sp"
         android:hint="请输入密码"
+        android:password="true"
         />
 
     <TextView

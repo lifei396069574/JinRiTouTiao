@@ -16,7 +16,7 @@
 
     <!--模式转换-->
     <!--黑夜主题-->
-    <style name="AppTheme.Black" parent="Theme.AppCompat">
+    <style name="AppTheme.Black" parent="Theme.AppCompat.NoActionBar">
 
     </style>
 

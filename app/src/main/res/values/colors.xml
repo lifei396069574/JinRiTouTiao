@@ -8,6 +8,7 @@
     <color name="colorBlack">#0b0b0b</color>
     <color name="colorWrite">#faf8f9</color>
     <color name="colorGray">#ffd9d9d9</color>
+    <color name="colorYello">#ef7204</color>
 
     <item name="subscribe_item_text_color_normal" type="color">@color/default_text</item>
     <color name="subscribe_item_text_color_pressed">#ffb9b9b9</color>

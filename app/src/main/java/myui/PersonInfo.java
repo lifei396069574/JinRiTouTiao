@@ -1,4 +1,5 @@
 package myui;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,9 +31,10 @@ import view.MyImageView;
  */
 public class PersonInfo extends Fragment implements View.OnClickListener {
     private TextView text_gerenshezhi_wancheng;
-    private MyImageView button_gerenshezhi_touxiang;
-    private Bitmap mBimap;
+    public  MyImageView button_gerenshezhi_touxiang;
     private EditText text_geren_nicheng;
+    public  Bitmap mBimap;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,7 +102,6 @@ public class PersonInfo extends Fragment implements View.OnClickListener {
                 editor.putString("zhaopian",convertIconToString(mBimap));
                 editor.commit();
 
-
                 getActivity().finish();
 
                 break;
@@ -144,15 +145,14 @@ public class PersonInfo extends Fragment implements View.OnClickListener {
             //得到裁剪后的照片
             mBimap = data.getParcelableExtra("data");
             button_gerenshezhi_touxiang.setImageBitmap(mBimap);
+
         } else if (requestCode == 100) {
             //得到照片
             mBimap = data.getParcelableExtra("data");
 
             button_gerenshezhi_touxiang.setImageBitmap(mBimap);
 
-            super.onActivityResult(requestCode, resultCode, data);
         }
-
 
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -189,16 +189,4 @@ public class PersonInfo extends Fragment implements View.OnClickListener {
     }
 
 
-    private void submit() {
-        // validate
-        String nicheng = text_geren_nicheng.getText().toString().trim();
-        if (TextUtils.isEmpty(nicheng)) {
-            Toast.makeText(getContext(), "昵称", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // TODO validate success, do something
-
-
-    }
 }

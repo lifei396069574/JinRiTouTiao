@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#000"
+        />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/topic_toolbar"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/topic_toolbar_goback"
+                android:background="@mipmap/back_discover_normal"
+                android:layout_width="15dp"
+                android:layout_height="15dp" />
+            <TextView
+                android:text="话题"
+                android:layout_centerInParent="true"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="+"
+                android:id="@+id/topic_toolbar_more"
+                android:layout_centerInParent="true"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+    <ScrollView
+        android:layout_below="@+id/topic_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/topic_top_tv"
+                android:text="我围观的话题"
+                android:textSize="15sp"
+                android:background="#d2d2d2"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <xlistview.bawei.com.xlistviewlibrary.XListView
+                android:id="@+id/topic_listv_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </xlistview.bawei.com.xlistviewlibrary.XListView>
+            <TextView
+                android:id="@+id/topic_bottom_tv"
+                android:text="可能感兴趣的话题"
+                android:background="#d2d2d2"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <xlistview.bawei.com.xlistviewlibrary.XListView
+                android:id="@+id/topic_listv_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </xlistview.bawei.com.xlistviewlibrary.XListView>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>

@@ -14,7 +14,7 @@
         android:layout_height="45dp"
         android:background="@color/colorRed" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/id_iv_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,7 +22,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dp"
             android:onClick="showLeftMenu"
-            android:background="@drawable/showright_selector" />
+            android:src="@drawable/recent_chat_showright_pressed"
+            />
 
         <TextView
             android:layout_width="fill_parent"
@@ -32,6 +33,15 @@
             android:textColor="#fff"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_subscibe_search_normal"
+            android:layout_alignParentRight="true"
+            android:id="@+id/main_shousuo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
 
     </RelativeLayout>
 
@@ -50,12 +60,12 @@
             app:tabTextColor="@color/colorBlack"
             app:tabMode="scrollable"/>
 
-        <ImageButton
+        <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@mipmap/addred_channel_titlbar"
             android:id="@+id/button_jia"
-            android:background="@color/colorWrite"
+
             />
 
     </LinearLayout>

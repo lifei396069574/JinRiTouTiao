@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':xlistviewlibrary', ':citypicker'
 include ':slidelibrary'

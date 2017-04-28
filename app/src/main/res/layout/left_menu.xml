@@ -6,10 +6,12 @@
         android:id="@+id/main_listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:divider="@null"
         android:layout_marginBottom="90dp"
         android:layout_marginTop="150dp"/>
-    <RelativeLayout
 
+    <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/cela_title2"
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -34,42 +36,42 @@
             />
     </RelativeLayout>
     <RelativeLayout
-        android:visibility="gone"
+
         android:id="@+id/cela_title"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
-        <ImageButton
+        <ImageView
             android:id="@+id/image_circle"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@mipmap/sina_leftdrawer_normal"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:background="@color/colorWrite"
+
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="21dp"/>
-        <ImageButton
+        <ImageView
             android:id="@+id/image_qq"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@mipmap/qq_leftdrawer_normal"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:background="@color/colorWrite"
+
             android:layout_alignTop="@id/image_circle"
             android:layout_centerHorizontal="true"/>
-        <ImageButton
+        <ImageView
             android:id="@+id/image_phone"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@mipmap/cellphone_leftdrawer_normal"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:background="@color/colorWrite"
+
             android:layout_alignTop="@id/image_qq"
             android:layout_alignParentStart="true"
             android:layout_marginStart="23dp"/>
@@ -85,45 +87,46 @@
             android:layout_below="@id/image_phone"
             android:layout_alignStart="@+id/image_phone"/>
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
-        <RadioButton
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:gravity="center"
             android:id="@+id/off_line"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/downloadicon_leftdrawer_normal"
             android:text="离线下载"
             android:textColor="@color/subscribe_item_normal_stroke"
-            android:drawableTop="@mipmap/downloadicon_leftdrawer_normal"
-            android:button="@null"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginBottom="20dp"/>
-    </RelativeLayout>
-    <RadioButton
-        android:id="@+id/setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="设置"
-        android:textColor="@color/subscribe_item_normal_stroke"
-        android:drawableTop="@mipmap/settingicon_leftdrawer_normal"
-        android:button="@null"
-        android:layout_marginEnd="33dp"
-        android:layout_alignBaseline="@+id/night"
-        android:layout_alignBottom="@+id/night"
-        android:layout_alignParentEnd="true"/>
-    <RadioButton
-        android:id="@+id/night"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="夜间模式"
-        android:textColor="@color/subscribe_item_normal_stroke"
-        android:drawableTop="@mipmap/nighticon_leftdrawer_pressed_night"
-        android:button="@null"
-        android:layout_marginBottom="23dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+            />
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/night"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/nighticon_leftdrawer_pressed_night"
+            android:text="夜间模式"
+            android:textColor="@color/subscribe_item_normal_stroke"
+            />
+        <TextView
+            android:gravity="center"
+            android:id="@+id/setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/settingicon_leftdrawer_normal"
+            android:text="设置"
+            android:textColor="@color/subscribe_item_normal_stroke"
+            />
+    </LinearLayout>
 </RelativeLayout>

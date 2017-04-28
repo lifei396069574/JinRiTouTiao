@@ -5,18 +5,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.administrator.jinritoutiao.R;
 
 import mhttp.MyHttp;
+import xlistview.bawei.com.xlistviewlibrary.XListView;
 
 /**
  * 作者：李飞 on 2017/4/10 09:58
  * 类的用途：
  */
 
-public class TestFragment extends Fragment {
+public class TestFragment extends Fragment implements XListView.IXListViewListener{
 
       private static final String KEY_CONTENT = "TestFragment:Content";
 
@@ -48,7 +48,11 @@ public class TestFragment extends Fragment {
           public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
               View view = inflater.inflate(R.layout.fragment, null);
 
-              ListView lv  = (ListView) view.findViewById(R.id.lv);
+              XListView lv  = (XListView) view.findViewById(R.id.lv);
+              lv.setEnabled(true);
+              lv.setPullRefreshEnable(true);
+              lv.setPullLoadEnable(true);
+
                 //  网络请求
               new MyHttp(getActivity(),mContent,lv).getVpData();
 
@@ -62,4 +66,16 @@ public class TestFragment extends Fragment {
               super.onSaveInstanceState(outState);
               outState.putString(KEY_CONTENT, mContent);
           }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
+
+
 }

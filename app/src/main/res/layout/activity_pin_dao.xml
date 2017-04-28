@@ -5,7 +5,8 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:id="@+id/subscribe_main_layout"
@@ -33,12 +34,13 @@
                     />
 
                 <ImageButton
+                    android:layout_marginRight="10dp"
                     android:layout_margin="5dp"
                     android:id="@+id/button_x"
                     android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_height="23dp"
                     android:src="@mipmap/close_title_details_normal"
-                    />
+                    android:layout_weight="0.05"/>
             </LinearLayout>
 
             <View

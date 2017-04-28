@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.jinritoutiao.R;
@@ -19,9 +20,9 @@ import com.example.administrator.jinritoutiao.R;
  */
 
 public class XieYi extends Fragment implements View.OnClickListener {
-    private ImageButton xianyi_imageview1;
+    private ImageView xianyi_imageview1;
     private TextView zhuce_textview1;
-    private ImageButton xianyi_imageview2;
+    private ImageView xianyi_imageview2;
     private WebView xianyi_webview;
 
 
@@ -34,9 +35,9 @@ public class XieYi extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View view) {
-        xianyi_imageview1 = (ImageButton) view.findViewById(R.id.xianyi_imagebutton1);
+        xianyi_imageview1 = (ImageView) view.findViewById(R.id.xianyi_imagebutton1);
         zhuce_textview1 = (TextView) view.findViewById(R.id.zhuce_textview1);
-        xianyi_imageview2 = (ImageButton) view.findViewById(R.id.xianyi_imagebutton2);
+        xianyi_imageview2 = (ImageView) view.findViewById(R.id.xianyi_imagebutton2);
         xianyi_webview = (WebView) view.findViewById(R.id.xianyi_webview);
 
         xianyi_imageview1.setOnClickListener(this);

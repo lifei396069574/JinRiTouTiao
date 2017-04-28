@@ -11,6 +11,7 @@ import java.io.File;
  */
 
 public class DbUtils {
+
     private static DbManager.DaoConfig daoConfig;
 
     public static DbManager getDaoConfig(){

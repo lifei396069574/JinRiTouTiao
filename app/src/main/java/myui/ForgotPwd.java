@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.administrator.jinritoutiao.R;
 
@@ -21,7 +22,7 @@ import com.example.administrator.jinritoutiao.R;
  */
 
 public class ForgotPwd extends Fragment implements View.OnClickListener, TextWatcher {
-    private ImageButton button_for_xiao;
+    private ImageView button_for_xiao;
     private EditText editText;
     private ImageButton button_for_x;
     private Button button_for_xia;
@@ -36,7 +37,7 @@ public class ForgotPwd extends Fragment implements View.OnClickListener, TextWat
     }
 
     private void initView(View view) {
-        button_for_xiao = (ImageButton) view.findViewById(R.id.button_for_xiao);
+        button_for_xiao = (ImageView) view.findViewById(R.id.button_for_xiao);
         editText = (EditText)  view.findViewById(R.id.editText);
         button_for_x = (ImageButton)  view.findViewById(R.id.button_for_x);
         button_for_xia = (Button)  view.findViewById(R.id.button_for_xia);

@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -41,9 +41,7 @@ public class PinDao extends AppCompatActivity implements AdapterView.OnItemClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         Night_styleutils.changeStyle(this, theme, savedInstanceState);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_dao);
         initView();
@@ -55,11 +53,8 @@ public class PinDao extends AppCompatActivity implements AdapterView.OnItemClick
         // 数据库查找
         DbManager db = DbUtils.getDaoConfig();
         try {
-
             List<NewsInfo> all = db.findAll(NewsInfo.class);
-
             for (int i = 0; i < all.size(); i++) {
-                Log.i("iii",all.get(i).zhuangt);
                 if (all.get(i).zhuangt.equals("1")){
                     mUserList.add(all.get(i).title);
                 }else {
@@ -265,11 +260,12 @@ public class PinDao extends AppCompatActivity implements AdapterView.OnItemClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_x:
-                    finish();
+                //因为finish（）后 mainActivity 会先走onResume 然后 本activity 才走onStop 所以提前变为true
+                MainActivity.isDB=true;
+                finish();
                 break;
         }
     }
-
 
     public void gaiZT(String name,int num){
         DbManager db = DbUtils.getDaoConfig();
@@ -291,19 +287,15 @@ public class PinDao extends AppCompatActivity implements AdapterView.OnItemClick
                 }
                 db.update(all, "zhuangt");//可以使对象、集合
             }
-
         } catch (DbException e) {
             e.printStackTrace();
         }
 
-
     }
 
-
     @Override
-    protected void onStop() {
-        super.onStop();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         MainActivity.isDB=true;
-        Log.i("fff"," pindao  onStop  finish"+MainActivity.isDB );
+        return super.onKeyDown(keyCode, event);
     }
 }

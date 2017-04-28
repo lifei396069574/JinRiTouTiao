@@ -34,6 +34,9 @@ dependencies {
     compile project(':slidelibrary')
     compile name: 'SMSSDK-2.1.4', ext: 'aar'
     compile name: 'SMSSDKGUI-2.1.4', ext: 'aar'
+    compile files('libs/mta-sdk-1.6.2.jar')
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile project(':xlistviewlibrary')
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.0.0-alpha1'
@@ -41,6 +44,10 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     testCompile 'junit:junit:4.12'
-    compile files('libs/mta-sdk-1.6.2.jar')
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile files('libs/SocialSDK_QQ_Simplify.jar')
+    compile files('libs/SocialSDK_WeChat_Simplify.jar')
+    compile files('libs/SocialSDK_Sina_Simplify.jar')
+    compile files('libs/umeng_social_shareview.jar')
+    compile 'eu.the4thfloor.volley:com.android.volley:2015.05.28'
+    compile project(':citypicker')
 }

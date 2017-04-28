@@ -8,8 +8,8 @@
             android:id="@+id/relative1"
             android:layout_width="match_parent"
             android:layout_height="50sp">
-            <ImageButton
-                android:background="@color/colorWrite"
+            <ImageView
+
                 android:id="@+id/zhuce_fanhui"
                 android:layout_width="20sp"
                 android:layout_centerVertical="true"
@@ -97,25 +97,27 @@
            android:background="@drawable/button_zhushape"
            android:layout_alignBottom="@id/account_et"
            android:layout_alignRight="@id/account_et"
-           android:layout_height="30dp"/>
+           android:layout_height="30dp"
+           android:layout_alignTop="@+id/account_et"/>
    </RelativeLayout>
 
 
     <view.LinEditetext
-        android:layout_below="@id/relative11"
-        android:layout_marginTop="20dp"
-        line:lineColorEt="@color/subscribe_item_disabled_bg_night"
-        android:textSize="@dimen/login_et_text_size"
-        android:layout_marginRight="@dimen/login_margin_left_right_edit"
-        android:layout_marginLeft="@dimen/login_margin_left_right_edit"
-        android:hint="请设置密码(6-20位英文或数字)"
-       android:background="@null"
-        android:drawableLeft="@mipmap/ic_login_pwd_highlighted"
         android:id="@+id/password_et"
-        android:textColorHint="@color/subscribe_item_drag_stroke"
-        android:layout_centerHorizontal="true"
-        android:layout_width="260dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_below="@id/relative11"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/login_margin_left_right_edit"
+        android:layout_marginRight="@dimen/login_margin_left_right_edit"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:drawableLeft="@mipmap/ic_login_pwd_highlighted"
+        android:hint="请设置密码(6-20位英文或数字)"
+        android:password="true"
+        android:textColorHint="@color/subscribe_item_drag_stroke"
+        android:textSize="@dimen/login_et_text_size"
+        line:lineColorEt="@color/subscribe_item_disabled_bg_night"
         />
     <Button
         android:id="@+id/denglu"

@@ -1,4 +1,5 @@
 package myui;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +22,7 @@ import com.example.administrator.jinritoutiao.R;
  */
 public class PhoneZhu extends Fragment implements View.OnClickListener {
 
-    private ImageButton zhuce_imageview;
+    private ImageView zhuce_imageview;
     private TextView zhuce_textview1;
     private TextView zhuce_login;
     private TextView edittext1;
@@ -29,6 +30,7 @@ public class PhoneZhu extends Fragment implements View.OnClickListener {
     private RadioButton radiobutton;
     private TextView zhuce_xieyi;
     private Button zhuce_button;
+    private int mNum;
 
 
     @Nullable
@@ -42,7 +44,7 @@ public class PhoneZhu extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View view) {
-        zhuce_imageview = (ImageButton) view.findViewById(R.id.zhuce_imageview);
+        zhuce_imageview = (ImageView) view.findViewById(R.id.zhuce_imageview);
         zhuce_textview1 = (TextView) view.findViewById(R.id.zhuce_textview1);
         zhuce_login = (TextView) view.findViewById(R.id.zhuce_textview2);
         edittext1 = (TextView) view.findViewById(R.id.edittext1);
@@ -55,6 +57,9 @@ public class PhoneZhu extends Fragment implements View.OnClickListener {
         zhuce_button.setOnClickListener(this);
         zhuce_login.setOnClickListener(this);
         zhuce_xieyi.setOnClickListener(this);
+
+        Bundle arguments = getArguments();
+        mNum = arguments.getInt("num");
     }
 
     @Override
@@ -62,9 +67,20 @@ public class PhoneZhu extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.zhuce_imageview:
 
-                FragmentTransaction fragmentTransaction3 = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction3.replace(R.id.framelayout,new PhoneLand());
-                fragmentTransaction3.commit();
+                if (mNum==1){
+                    LandMore phoneMore = new LandMore();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("num",2);
+                    phoneMore.setArguments(bundle);
+                    tiaozhuan(new LandMore());
+                }else if (mNum==3){
+                    PhoneLand phoneLand = new PhoneLand();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("num",1);
+                    phoneLand.setArguments(bundle);
+                    tiaozhuan(phoneLand);
+                }
+
                 break;
             case R.id.zhuce_button:
                 //下一步
@@ -79,30 +95,34 @@ public class PhoneZhu extends Fragment implements View.OnClickListener {
                     bundle.putString("phoneNum",edittext2.getText().toString());
                     yanZheng.setArguments(bundle);
 
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.framelayout,yanZheng);
-                    fragmentTransaction.commit();
+                    tiaozhuan(yanZheng);
 
                 }
 
                 break;
             case R.id.zhuce_textview2:
                 //登陆
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.framelayout,new PhoneLand());
-                fragmentTransaction.commit();
+                PhoneLand phoneLand = new PhoneLand();
+                Bundle bundle = new Bundle();
+                bundle.putInt("num",2);
+                phoneLand.setArguments(bundle);
+                tiaozhuan(phoneLand);
 
                 break;
             case R.id.zhuce_textview3:
                 //协议
-                FragmentTransaction fragmentTransaction2 = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction2.replace(R.id.framelayout,new XieYi());
-                fragmentTransaction2.commit();
+                tiaozhuan(new XieYi());
 
                 break;
         }
     }
 
+
+    public void tiaozhuan(Fragment f) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.framelayout, f);
+        fragmentTransaction.commit();
+    }
 
 
 

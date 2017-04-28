@@ -6,13 +6,13 @@
 
 
 
-  <ImageButton
+  <ImageView
       android:id="@+id/button_landmore_xiao"
       android:layout_margin="15dp"
       android:layout_width="20dp"
       android:layout_height="20dp"
       android:src="@mipmap/back_discover_normal"
-      android:background="@color/colorWrite"
+
       />
 
        <TextView

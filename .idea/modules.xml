@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JinRiTouTiao.iml" filepath="$PROJECT_DIR$/JinRiTouTiao.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/citypicker/citypicker.iml" filepath="$PROJECT_DIR$/citypicker/citypicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/slidelibrary/slidelibrary.iml" filepath="$PROJECT_DIR$/slidelibrary/slidelibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xlistviewlibrary/xlistviewlibrary.iml" filepath="$PROJECT_DIR$/xlistviewlibrary/xlistviewlibrary.iml" />
     </modules>
   </component>
 </project>

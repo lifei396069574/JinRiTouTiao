@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +33,7 @@ import view.LinEditetext;
  */
 
 public class YanZheng extends Fragment implements View.OnClickListener {
-    private ImageButton zhuce_fanhui;
+    private ImageView zhuce_fanhui;
     private RelativeLayout relative1;
     private TextView phone_text;
     private TextView phone_text1;
@@ -66,12 +66,8 @@ public class YanZheng extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.phonezhuce, null);
-        initView(view);
-        Bundle bundle = getArguments();
 
-        mPhoneNum = bundle.getString("phoneNum");
-        Log.i("ggg","电话号"+mPhoneNum);
-        phone_text1.setText(mPhoneNum);
+        initView(view);
 
         timeBack();
 
@@ -82,7 +78,7 @@ public class YanZheng extends Fragment implements View.OnClickListener {
         return view;
     }
     private void initView(View view) {
-        zhuce_fanhui = (ImageButton) view.findViewById(R.id.zhuce_fanhui);
+        zhuce_fanhui = (ImageView) view.findViewById(R.id.zhuce_fanhui);
         relative1 = (RelativeLayout) view.findViewById(R.id.relative1);
         phone_text = (TextView) view.findViewById(R.id.phone_text);
         phone_text1 = (TextView) view.findViewById(R.id.phone_text1);
@@ -96,11 +92,18 @@ public class YanZheng extends Fragment implements View.OnClickListener {
         chongxinfasong.setOnClickListener(this);
         denglu.setOnClickListener(this);
         zhuce_fanhui.setOnClickListener(this);
+
+        Bundle bundle = getArguments();
+        mPhoneNum = bundle.getString("phoneNum");
+        phone_text1.setText(mPhoneNum);
+
     }
+
     private void timeBack() {
         chongxinfasong.setEnabled(false);
         mHandler.sendEmptyMessage(0);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -146,9 +149,6 @@ public class YanZheng extends Fragment implements View.OnClickListener {
                                 showDailog("恭喜你！通过验证");
                                 dialog.dismiss();
                                 // 记住密码   将账号密码存在数据库中 ？
-
-
-
 
 
                                 tiaozhuan(new PersonInfo());

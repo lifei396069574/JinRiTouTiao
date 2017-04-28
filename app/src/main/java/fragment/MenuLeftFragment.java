@@ -1,22 +1,19 @@
 package fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -27,22 +24,17 @@ import com.example.administrator.jinritoutiao.Main2Activity;
 import com.example.administrator.jinritoutiao.MainActivity;
 import com.example.administrator.jinritoutiao.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.tencent.connect.UserInfo;
-import com.tencent.connect.auth.QQToken;
-import com.tencent.tauth.IUiListener;
-import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import bean.Bean;
 import utils.UiUtils;
-
-import static com.tencent.open.utils.Global.getSharedPreferences;
 
 /**
  * 作者：李飞 on 2017/4/8 11:27
@@ -59,12 +51,12 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
     private ImageView mTouxiang;
     private TextView mNi;
     private SharedPreferences mPerson;
-    private Button mNight;
-    private static final String APP_ID = "1106105900";//官方获取的APPID
-    private Tencent mTencent;
-    private BaseUiListener mIUiListener;
-    private UserInfo mUserInfo;
-    private ImageButton mImage_qq;
+    private TextView mNight;
+    private ImageView mImage_qq;
+    private UMAuthListener mAuthListener;
+    private TextView mSetting;
+    private TextView mOff_line;
+
 
     @Nullable
     @Override
@@ -82,18 +74,12 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
 
         panduantouxian(mR1, mR2, mTouxiang, mNi);
 
-        //传入参数APPID和全局Context上下文
-        mTencent = Tencent.createInstance(APP_ID,getActivity().getApplicationContext());
-
-        Log.i("iii","走了一次");
-
         return view;
     }
 
     private void panduantouxian(RelativeLayout r1, RelativeLayout r2, ImageView touxiang, TextView ni) {
 
         boolean is = mPerson.getBoolean("is", false);
-        Log.i("iii",is+"");
         String nicheng = mPerson.getString("nicheng", "昵称");
         String tu = mPerson.getString("zhaopian", "");
         Bitmap bitmap = convertStringToIcon(tu);
@@ -102,15 +88,17 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         if (is){
             r1.setVisibility(View.GONE);
             r2.setVisibility(View.VISIBLE);
-            touxiang.setImageBitmap(bitmap);
-            ImageLoader.getInstance().displayImage(imagehttp,touxiang);
+            if (!tu.equals("")){
+                touxiang.setImageBitmap(bitmap);
+            }else {
+                ImageLoader.getInstance().displayImage(imagehttp,touxiang);
+            }
             ni.setText(nicheng);
         }else {
             r2.setVisibility(View.GONE);
             r1.setVisibility(View.VISIBLE);
         }
     }
-
 
     /**
      * string转成bitmap
@@ -145,6 +133,15 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         initData();
 
         mListView.setAdapter(new MyBaseAdapter());
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(getActivity(),Main2Activity.class);
+                intent.putExtra("what",position);
+                startActivity(intent);
+            }
+        });
 
     }
     private void initData() {
@@ -155,22 +152,69 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
         mList.add(new Bean(R.mipmap.sellicon_leftdrawer,"商城"));
         mList.add(new Bean(R.mipmap.feedbackicon_leftdrawer,"反馈"));
         mList.add(new Bean(android.R.drawable.sym_action_chat,"我要爆料"));
-
-
     }
 
     private void initView() {
 
         mListView = (ListView)getView().findViewById(R.id.main_listview);
         mLandmore = (TextView) getView().findViewById(R.id.text_landmore);
-        mNight = (Button) getView().findViewById(R.id.night);
-        mImage_qq = (ImageButton) getView().findViewById(R.id.image_qq);
+        mNight = (TextView) getView().findViewById(R.id.night);
+        mImage_qq = (ImageView) getView().findViewById(R.id.image_qq);
+        mSetting = (TextView) getView().findViewById(R.id.setting);
+        mOff_line = (TextView) getView().findViewById(R.id.off_line);
+
         mLandmore.setOnClickListener(this);
         mImage_qq.setOnClickListener(this);
         mNight.setOnClickListener(this);
+        mSetting.setOnClickListener(this);
+        mOff_line.setOnClickListener(this);
 
+        login_qq();
 
     }
+
+    private void login_qq() {
+        //第三方登陆
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+        config.isOpenShareEditActivity(true);
+        config.setSinaAuthType(UMShareConfig.AUTH_TYPE_SSO);
+        config.setFacebookAuthType(UMShareConfig.AUTH_TYPE_SSO);
+        config.setShareToLinkedInFriendScope(UMShareConfig.LINKED_IN_FRIEND_SCOPE_ANYONE);
+        UMShareAPI.get(getActivity()).setShareConfig(config);
+        mAuthListener = new UMAuthListener() {
+            @Override
+            public void onStart(SHARE_MEDIA platform) {
+                //授权开始的回调
+            }
+            @Override
+            public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+                Toast.makeText(getActivity(), "授权成功", Toast.LENGTH_SHORT).show();
+
+                String name1 = data.get("name");
+                String url = data.get("iconurl");
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("person", Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("is",true);
+                editor.putString("nicheng",name1);
+                editor.putString("image",url);
+                editor.commit();
+
+                panduantouxian(mR1, mR2, mTouxiang, mNi);
+
+            }
+            @Override
+            public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+                Toast.makeText( getActivity(), "授权失败", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onCancel(SHARE_MEDIA platform, int action) {
+                Toast.makeText(getActivity(), "取消授权", Toast.LENGTH_SHORT).show();
+            }
+        };
+    }
+
     class MyBaseAdapter extends BaseAdapter {
 
         @Override
@@ -205,6 +249,7 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
             return convertView;
         }
     }
+
     class ViewHolder{
         TextView mTextView;
         ImageView mImageView;
@@ -213,139 +258,49 @@ public class MenuLeftFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        Intent intent = new Intent(getActivity(), Main2Activity.class);
         switch (v.getId()){
             case R.id.text_landmore:
-                startActivity(new Intent(getActivity(), Main2Activity.class));
+                intent.putExtra("what",8);
+                startActivity(intent);
                 break;
             case R.id.image_cehua_touxiang:
-
-                Log.i("fff","点击了");
                //清空 存储
-                SharedPreferences.Editor editor = mPerson.edit();
-                editor.clear();
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("person", Context.MODE_WORLD_READABLE | Context.MODE_WORLD_WRITEABLE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                editor.putBoolean("is",false);
                 editor.commit();
                 panduantouxian(mR1, mR2, mTouxiang, mNi);
                 break;
             case R.id.night:
                 //夜间模式
-                int i = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-                if (i==Configuration.UI_MODE_NIGHT_NO){
-                    mNight.setText("白天模式");
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }else {
-                    mNight.setText("夜间模式");
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-
                 UiUtils.switchAppTheme(getActivity());
                 MainActivity mainActivity = (MainActivity) getActivity();
                 mainActivity.reload();
-
                 break;
-
             case R.id.image_qq:
                 //第三方登陆
-
-        /*       官方文档中的说明：应用需要获得哪些API的权限，由“，”分隔。例如：SCOPE = “get_user_info,add_t”；所有权限用“all”
-                第三个参数，是一个事件监听器，IUiListener接口的实例，这里用的是该接口的实现类 */
-                mIUiListener = new BaseUiListener();
-
-                //all表示获取所有权限
-                mTencent.login(getActivity(),"all", mIUiListener);
-                Log.i("jjj","点击了第三方");
+                UMShareAPI.get(getActivity()).getPlatformInfo(getActivity(), SHARE_MEDIA.QQ ,mAuthListener);
+                break;
+            case R.id.setting:
+                //设置
+                intent.putExtra("what",9);
+                startActivity(intent);
+                break;
+            case R.id.off_line:
+                //离线下载
+                intent.putExtra("what",7);
+                startActivity(intent);
                 break;
         }
-    }
-
-
-
-    @Override
-    public void onPause(){
-        super.onPause();
-    //    Log.i("iii","onPause");
     }
 
     @Override
     public void onResume(){
         super.onResume();
-     //   Log.i("iii","onResume");
-
         panduantouxian(mR1, mR2, mTouxiang, mNi);
-
     }
-
-    /**
-     * 自定义监听器实现IUiListener接口后，需要实现的3个方法
-     * onComplete完成 onError错误 onCancel取消
-     */
-    public class BaseUiListener implements IUiListener {
-        @Override
-        public void onComplete(Object response) {
-
-            Log.i("jjj","授权成功");
-            Toast.makeText(getActivity(), "授权成功", Toast.LENGTH_SHORT).show();
-
-            JSONObject obj = (JSONObject) response;
-            try {
-                String openID = obj.getString("openid");
-                String accessToken = obj.getString("access_token");
-                String expires = obj.getString("expires_in");
-                Log.i("jjj","obj"+obj.toString());
-                mTencent.setOpenId(openID);
-                mTencent.setAccessToken(accessToken,expires);
-                QQToken qqToken = mTencent.getQQToken();
-                mUserInfo = new UserInfo(getActivity().getApplicationContext(),qqToken);
-                mUserInfo.getUserInfo(new IUiListener() {
-                    @Override
-                    public void onComplete(Object response) {
-                        Log.i("jjj","登录成功"+response.toString());
-
-                        JSONObject res= (JSONObject) response;
-                        String nickName=res.optString("nickname");//获取昵称
-                        String figureurl_qq_1=res.optString("figureurl_qq_2");//获取图片
-
-                        SharedPreferences.Editor info = getSharedPreferences("person", MainActivity.MODE_WORLD_READABLE | MainActivity.MODE_WORLD_WRITEABLE).edit();
-                        info.putBoolean("is",true);
-                        info.putString("nicheng",nickName);
-                        info.putString("image",figureurl_qq_1);
-                        info.commit();
-                        Log.i("jjj","记录");
-
-                        //  先回复焦点 然后执行回调
-                        panduantouxian(mR1, mR2, mTouxiang, mNi);
-
-                        mTencent.logout(getActivity());
-
-                    }
-                    @Override
-                    public void onError(UiError uiError) {
-                        Log.i("jjj","登录失败"+uiError.toString());
-                    }
-                    @Override
-                    public void onCancel() {
-                        Log.i("jjj","登录取消");
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onError(UiError uiError) {
-            Toast.makeText(getActivity(), "授权失败", Toast.LENGTH_SHORT).show();
-            Log.i("jjj","授权失败");
-        }
-
-        @Override
-        public void onCancel() {
-            Toast.makeText(getActivity(), "授权取消", Toast.LENGTH_SHORT).show();
-            Log.i("jjj","授权取消");
-        }
-
-    }
-
 
 
 }

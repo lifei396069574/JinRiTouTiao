@@ -9,7 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/citypicker" />
             <option value="$PROJECT_DIR$/slidelibrary" />
+            <option value="$PROJECT_DIR$/xlistviewlibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

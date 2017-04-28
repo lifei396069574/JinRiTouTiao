@@ -27,7 +27,6 @@
 
 
     <view.MyImageView
-        android:background="@color/colorWrite"
         android:id="@+id/button_gerenshezhi_touxiang"
         android:layout_width="100dp"
         android:layout_height="100dp"

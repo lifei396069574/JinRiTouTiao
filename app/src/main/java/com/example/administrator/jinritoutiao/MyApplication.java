@@ -15,6 +15,9 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
 
 import org.xutils.x;
 
@@ -32,17 +35,31 @@ import utils.Utils;
 
 public class MyApplication extends Application {
 
+    {
+
+        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setQQZone("1106029683", "aP7xnHdIjcoutMO2");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        // 网络判断
         Utils.init(this);
-
+        //xUtils
         x.Ext.init(this);
         x.Ext.setDebug(false);
+        //分享
+        UMShareAPI.get(this);
 
+        UMShareConfig config1 = new UMShareConfig();
+        config1.setSinaAuthType(UMShareConfig.AUTH_TYPE_WEBVIEW);
+        UMShareAPI.get(this).setShareConfig(config1);
+        //短信
         SMSSDK.initSDK(this, "1cf762461c1c0", "2096c547b3ae27f8174c08da48421403");
-
+        //imageloader
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
                 this)
                 .memoryCacheExtraOptions(480, 800)
@@ -80,9 +97,9 @@ public class MyApplication extends Application {
     private DisplayImageOptions getDisplayOptions() {
         DisplayImageOptions options;
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.mipmap.ic_launcher) // 设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.mipmap.ic_launcher)// 设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.mipmap.ic_launcher) // 设置图片加载/解码过程中错误时候显示的图片
+                .showImageOnLoading(R.mipmap.mor) // 设置图片在下载期间显示的图片
+                .showImageForEmptyUri(R.mipmap.mor)// 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.mipmap.mor) // 设置图片加载/解码过程中错误时候显示的图片
                 .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
                 .cacheOnDisc(true)// 设置下载的图片是否缓存在SD卡中
                 .considerExifParams(true) // 是否考虑JPEG图像EXIF参数（旋转，翻转）

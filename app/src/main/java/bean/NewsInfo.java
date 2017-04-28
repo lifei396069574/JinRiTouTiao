@@ -22,6 +22,12 @@ public class NewsInfo {
     public NewsInfo() {
     }
 
+    public NewsInfo(String uri, String title, String zhuangt) {
+        this.uri = uri;
+        this.title = title;
+        this.zhuangt = zhuangt;
+    }
+
     @Column(name = "_id", isId = true, autoGen = true)
     public int _id;
 

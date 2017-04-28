@@ -9,9 +9,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/button_for_xiao"
-            android:background="@color/colorWrite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/back_discover_normal"/>
