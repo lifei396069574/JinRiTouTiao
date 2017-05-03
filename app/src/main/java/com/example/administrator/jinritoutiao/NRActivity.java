@@ -105,7 +105,6 @@ public class NRActivity extends AppCompatActivity implements View.OnClickListene
                     nr_shouc.setImageResource(R.mipmap.ic_action_favor_on_normal);
                     flag_nr=true;
 
-
                 }
 
                 break;

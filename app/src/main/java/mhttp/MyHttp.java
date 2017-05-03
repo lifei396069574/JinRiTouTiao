@@ -118,7 +118,7 @@ public class MyHttp {
                 BuBean buBean = gson.fromJson(result, BuBean.class);
                 List<BuBean.DataBean> data = buBean.getData();
 
-                if (flag){   //
+                if (flag){
                     list_num.add(startNum);
                     for (int i = 0; i <data.size() ; i++) {
                         list_bu.add(data.get(i));
@@ -214,9 +214,6 @@ public class MyHttp {
             list_news.add(newsInfo);
         }
 
-            list_news.add(new NewsInfo());
-
-
         try {
 
             mDb.save(list_news);
@@ -238,7 +235,6 @@ public class MyHttp {
         try {
             List<NewsInfo> all = mDb.findAll(NewsInfo.class);//返回当前表里面的所有数据
             for (NewsInfo n :all) {
-                Log.i("kkk",n.zhuangt);
                 if (n.zhuangt.equals("1")){
                     mList_title.add(n.title);
                     mList_uri.add(n.uri);
@@ -252,7 +248,6 @@ public class MyHttp {
         }
 
     }
-
 
 
     public void setAdapter(){

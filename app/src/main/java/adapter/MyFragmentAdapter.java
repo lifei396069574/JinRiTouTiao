@@ -23,7 +23,6 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
         this.mList_title=mList_title;
         this.mList_uri=mList_uri;
     }
-
     @Override
     public Fragment getItem(int position) {
         return TestFragment.newInstance(mList_uri.get(position % mList_uri.size()));
@@ -33,6 +32,7 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mList_title.get(position % mList_title.size()).toUpperCase();
     }
+
 
     @Override
     public int getCount() {

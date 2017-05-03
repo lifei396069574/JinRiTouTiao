@@ -6,7 +6,7 @@ import android.widget.GridView;
 
 /**
  * 作者：李飞 on 2017/4/12 19:50
- * 类的用途：
+ * 类的用途： 频道页面的GridView
  */
 
 public class MyGridView extends GridView {

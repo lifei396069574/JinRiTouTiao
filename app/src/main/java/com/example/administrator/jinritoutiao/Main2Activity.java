@@ -19,6 +19,9 @@ import myui.LandMore;
 import myui.LiXianXZ;
 import utils.Night_styleutils;
 
+/**
+ * 侧拉菜单 跳转的Activity
+ */
 public class Main2Activity extends BaseFragment {
 
     private int theme = 0;

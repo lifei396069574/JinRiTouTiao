@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 /**
  * data:2017/4/14
- * author:郭彦君(Administrator)
+ * author:
  * function:
  */
 public class Night_styleutils {
